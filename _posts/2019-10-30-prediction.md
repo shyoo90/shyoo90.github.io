@@ -2,11 +2,11 @@
 title: "Depression analysis: Overall Plan"
 date: 2019-10-30
 tags: [machine learning, data science, python]
-header:
-  image: "/images/depression/1.jpg"
 excerpt: "Machine Learning, RNN, Data Science"
 ---
 # 우울증 분석기 제작 과정
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/1.jpg" alt="linearly separable data">
 
 ## 데이터 수집
 
