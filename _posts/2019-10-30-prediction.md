@@ -6,6 +6,7 @@ excerpt: "Machine Learning, RNN, Data Science"
 ---
 # 우울증 분석기 제작 과정
 
+
 <img src="{{ site.url }}{{ site.baseurl }}/images/depression/1.jpg" alt="linearly separable data">
 
 ## 데이터 수집
