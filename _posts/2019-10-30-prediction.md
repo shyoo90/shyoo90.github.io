@@ -4,7 +4,7 @@ date: 2019-10-30
 tags: [machine learning, data science, python]
 header:
   image: "/images/depression/1.jpg"
-exerpt: "Machine Learning, RNN, Data Science"
+excerpt: "Machine Learning, RNN, Data Science"
 ---
 # 우울증 분석기 제작 과정
 
@@ -27,3 +27,5 @@ exerpt: "Machine Learning, RNN, Data Science"
 여러 **RNN계열 모델** 들을 사용하여 정확도가 높은 모델을 정한뒤
 **grid search** 를 통해 성능 향상
 시각화 단계에서 추출한 표현들을 출력에서 보여주도록 설계
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/2.jpg" alt="linearly separable data">
