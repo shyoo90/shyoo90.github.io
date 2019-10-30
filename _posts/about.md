@@ -2,7 +2,7 @@
 title: "About"
 permalink: /about/
 header:
-  image: "/images/about.jpg"
+  image: "/images/main.jpg"
 ---
 
 I am a student in the engineering department, preparing to become a machine learning engineer.
