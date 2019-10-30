@@ -108,7 +108,7 @@ analytics:
 # Site Author
 author:
   name             : "Seunghyun Yoo"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/images/me.jpg" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Machine Learning Portfolio"
   location         : "Seoul, Korea"
   email            :
