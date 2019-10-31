@@ -13,6 +13,8 @@ selenium 을 사용한 네이버 카페 메모 크롤링
 * [리스트로 바꾼뒤 중복된 문장 제거](#리스트로-바꾼뒤-중복된-문장-제거)
 3. [우울증 카페 글](#우울증-카페-글)
 4. [두 데이터 합치기](#두-데이터-합치기)
+* [이상치 제거](#이상치-제거)
+* [교집합 제거](#교집합-제거)
 5. [토크나이저, 인코딩, pad_sequences](#토크나이저,-인코딩,-pad_sequences)
 
 ## 준비 단계
@@ -651,12 +653,13 @@ df0.to_csv('depression_sum.csv')
 
 ## 두 데이터 합치기
 두 데이터를 합치기 전에 이상치를 제거하였다.
+### 이상치 제거
 
 ```python
 plt.plot(range(len(df0)),df0['len'].T.sort_values()) #글길이 분포 확인
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p1.jpg" alt="linearly separable data">
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p1.png" alt="linearly separable data">
 
 
 
@@ -744,7 +747,7 @@ plt.plot(range(len(df9)),df9['len'].T.sort_values()) #글길이 분포 확인
 
 
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p2.jpg" alt="linearly separable data">
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p2.png" alt="linearly separable data">
 
 
 
@@ -823,7 +826,7 @@ df9.describe() #글길이 분포 확인
 </div>
 
 
-
+적당히 200글자 이상을 이상치로 판단하여 제거하였다.
 
 ```python
 # 200 글자 이상 제거
@@ -831,7 +834,7 @@ df9 = df9[df9['len']<200]
 df0 = df0[df0['len']<200]
 ```
 
-### 교집합 
+### 교집합 제거
 
 ```python
 # 교집합제거
@@ -1056,30 +1059,31 @@ plt.plot(range(len(df)),df['len'].T.sort_values())
 
 
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p3.jpg" alt="linearly separable data">
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p3.png" alt="linearly separable data">
 
 
 ## 토크나이저, 인코딩, pad_sequences
 
-
+우선 데이터를 리스트로 가져왔다.
 ```python
 _input1 = df['content']
 _label = df['label']
 ```
 
+cleaning 함수를 만들어 이모티콘 등을 제거하였다.
 
 ```python
 cleaning =lambda s: re.sub("[^가-힣a-zA-Z.!?\\s]","",s) # 이모티콘같은거 제거
 ```
 
-
+형태소 단위로 토크나이즈 하였다. okt함수를 사용하였다.
 ```python
 # 형태소 단위로 토크나이즈
 tokenizer = Okt()
 _input1 = [ tokenizer.morphs(cleaning(str(sentence))) for sentence in _input1]
 ```
 
-
+feature를 줄이기 위해 feature 분포를 알아본뒤 17814개로 feature를 줄였다.
 ```python
 #feature 줄이기
 num_words=17814
@@ -1152,7 +1156,7 @@ plt.show()
 ```
 
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p4.jpg" alt="linearly separable data">
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p4.png" alt="linearly separable data">
 
 
 
