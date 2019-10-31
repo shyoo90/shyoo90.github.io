@@ -32,4 +32,3 @@ excerpt: "Machine Learning, RNN, Data Science"
 시각화 단계에서 추출한 표현들을 출력에서 보여주도록 설계
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/depression/2.jpg" alt="linearly separable data">
-<img src="{{ site.url }}{{ site.baseurl }}/images/depression/10.jpg" alt="linearly separable data">
