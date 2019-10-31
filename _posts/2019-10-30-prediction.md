@@ -1,5 +1,5 @@
 ---
-title: "Depression analysis: Overall Plan"
+title: "우울증 분석기"
 date: 2019-10-30
 tags: [machine learning, data science, python]
 excerpt: "Machine Learning, RNN, Data Science"
