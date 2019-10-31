@@ -9,7 +9,7 @@ excerpt: "Machine Learning, RNN, Data Science"
 ## [데이터 수집](https://shyoo90.github.io/crawling/)
 
 **네이버 카페** 크롤링을 통해 데이터를 수집하였다.
-우울증 카페와 일반 카페에서 약 **3만명** 이 작성한 **10만문장*** 의 글들을 크롤링
+우울증 카페와 일반 카페에서 약 **3만명** 이 작성한 **10만문장** 의 글들을 크롤링
 
 ## [전처리](https://shyoo90.github.io/preprocessing/)
 
