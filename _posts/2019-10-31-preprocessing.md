@@ -4,6 +4,21 @@ date: 2019-10-30
 tags: [machine learning, data science, python]
 excerpt: "Machine Learning, RNN, Data Science"
 ---
+selenium 을 사용한 네이버 카페 메모 크롤링
+
+1. [준비 단계].(#준비-단계)
+2. [일반 카페 글 전처리].(#일반-카페-글)
+* [이상한 글 제거하기](#이상한-글-제거하기)
+
+3. [다양한 페이지별 크롤링]>(#다양한-페이지별-크롤링)
+* [네이버 카페 메모 클롤링].(#메모-크롤링)
+* [네이버 카페 게시판 크롤링].(#게시판-크롤링)
+* [네이버 지식인 크롤링].(#네이버-지식인-크롤링)
+* [브런치 크롤링].(#브런치-크롤링)
+2. 데이터 프레임 만들어보기
+
+## 준비 단계
+
 ```python
 import pandas as pd, pickle, re
 from konlpy.tag import Okt
@@ -41,34 +56,9 @@ df11 = pd.read_csv('story_2.csv') # 자기계발2
 df12 = pd.read_csv('fun.csv') # 유머카페
 df13 = pd.read_csv('brunch.csv') # 브런치
 ```
+### 이상한 글 제거하기
 
-
-```python
-# null값 제거
-df1 = df1.dropna(axis=0)
-df2 = df2.dropna(axis=0)
-df3 = df3.dropna(axis=0)
-df4 = df4.dropna(axis=0)
-df5 = df5.dropna(axis=0)
-df6 = df6.dropna(axis=0)
-df7 = df7.dropna(axis=0)
-df8 = df8.dropna(axis=0)
-df10 = df10.dropna(axis=0)
-df11 = df11.dropna(axis=0)
-df12 = df12.dropna(axis=0)
-df13 = df13.dropna(axis=0)
-```
-
-
-```python
-# 데이터 프레임 내 a 없애기
-def rem(a,df):
-    col = list(df.columns)
-    for i in col:
-        df[i] = df[i].apply(lambda x: re.sub(a,'',x))
-    return df
-```
-
+광고 올리는 아이디 제거하기
 
 ```python
 # 광고 올리는 아이디 제거
@@ -83,6 +73,7 @@ def bad_del(df4):
     return df4
 ```
 
+이상한 키워드를 포함하는 열 제거하기
 
 ```python
 # 키워드 포함 열 제거
@@ -149,7 +140,7 @@ df9
     </tr>
     <tr>
       <td>1</td>
-      <td>내 맘에 들지 않는 사람을 쳐냈었는데 처음으로 손을 내밀어봤습니다. 그 손을 잡아주...</td>
+      <td>처음으로 손을 내밀어봤습니다. 그 손을 잡아주...</td>
     </tr>
     <tr>
       <td>2</td>
@@ -157,11 +148,11 @@ df9
     </tr>
     <tr>
       <td>3</td>
-      <td>삶이 무료해지고 이제 또 즐거운 무언가를 찾고 있었습니다. 또 의미없이 시간 보내는...</td>
+      <td>삶이 무료해지고 이제 또 즐거운 무언가를 찾고...</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>붓다의 유언을 읽을 수 있어서 감사했습니다.. “제행이 무상하니, 방일하지 말고 정...</td>
+      <td>제행이 무상하니, 방일하지 말고 정...</td>
     </tr>
     <tr>
       <td>...</td>
@@ -173,19 +164,19 @@ df9
     </tr>
     <tr>
       <td>12855</td>
-      <td>오랜 시간 동안 네이버 블로그에 글을 적어왔다.일본에서 살기 전에는 일본 여행 관련...</td>
+      <td>오랜 시간 동안 네이버 블로그에 여행 관련...</td>
     </tr>
     <tr>
       <td>12856</td>
-      <td>토요일 아침. 사람들이 주말을 시작하는 풍경은 어떨까? 밀린 늦잠을 자는 사람들도,...</td>
+      <td>토요일 아침. 늦잠을 자는 사람들도,...</td>
     </tr>
     <tr>
       <td>12857</td>
-      <td>벌써 르완다 생활이 1년 하고도 5개월.왠지 1년 차는 예전에 지나간 느낌인데 아직...</td>
+      <td>예전에 지나간 느낌인데 아직...</td>
     </tr>
     <tr>
       <td>12858</td>
-      <td>원래 다이어리 쓰는 것을 좋아했다. 연말이 되면 의지가 흐릿해졌지만 그래도 매년 다...</td>
+      <td>의지가 흐릿해졌지만 그래도 매년 다...</td>
     </tr>
   </tbody>
 </table>
@@ -208,76 +199,6 @@ rem(' ',df9)
 
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>content</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>만두를먹을수있어서감사합니다</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>내맘에들지않는사람을쳐냈었는데처음으로손을내밀어봤습니다.그손을잡아주어서감사합니다.자존심...</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>버스를탈수있어서감사합니다</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>삶이무료해지고이제또즐거운무언가를찾고있었습니다.또의미없이시간보내는일을찾을수도있었는데좋...</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>붓다의유언을읽을수있어서감사했습니다..“제행이무상하니,방일하지말고정진하라"</td>
-    </tr>
-    <tr>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <td>12854</td>
-      <td>(직장인들은공감할수있을것같은데)요즘나에게하루중가장길게느껴지는시간은출퇴근시간이다.매일...</td>
-    </tr>
-    <tr>
-      <td>12855</td>
-      <td>오랜시간동안네이버블로그에글을적어왔다.일본에서살기전에는일본여행관련으로적기시작하다가일본...</td>
-    </tr>
-    <tr>
-      <td>12856</td>
-      <td>토요일아침.사람들이주말을시작하는풍경은어떨까?밀린늦잠을자는사람들도,벌써하루를준비해나가...</td>
-    </tr>
-    <tr>
-      <td>12857</td>
-      <td>벌써르완다생활이1년하고도5개월.왠지1년차는예전에지나간느낌인데아직1년6개월이채되지않았...</td>
-    </tr>
-    <tr>
-      <td>12858</td>
-      <td>원래다이어리쓰는것을좋아했다.연말이되면의지가흐릿해졌지만그래도매년다이어를써왔다.근데스위...</td>
-    </tr>
-  </tbody>
-</table>
-<p>12859 rows × 1 columns</p>
-</div>
 
 
 
