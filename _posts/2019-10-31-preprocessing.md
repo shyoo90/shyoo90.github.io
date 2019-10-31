@@ -11,11 +11,8 @@ selenium 을 사용한 네이버 카페 메모 크롤링
 * [하나의 데이터 프레임으로 합치기](#하나의-데이터-프레임으로-합치기)
 * [띄어쓰기 제거, 말줄임표 처리](#띄어쓰기-제거,-말줄임표-처리)
 * [리스트로 바꾼뒤 중복된 문장 제거](#리스트로-바꾼뒤-중복된-문장-제거)
-3. [우울증 카페 글 ](#다양한-페이지별-크롤링)
-* [네이버 카페 메모 클롤링](#메모-크롤링)
-* [네이버 카페 게시판 크롤링](#게시판-크롤링)
-* [네이버 지식인 크롤링](#네이버-지식인-크롤링)
-* [브런치 크롤링](#브런치-크롤링)
+3. [우울증 카페 글](#우울증-카페-글)
+
 2. [
 
 ## 준비 단계
@@ -401,7 +398,7 @@ df8 = pd.read_csv('depression_newlifememo.csv')
 df10 = pd.read_csv('depression_feelingdep.csv')
 df11 = pd.read_csv('depression_depinsomnia.csv')
 ```
-
+그중 네이버 지식인은 다양한 검색어를 통해 나온 글들을 크롤링하였기 때문에 겹치는 문장들을 제거하였다.
 
 ```python
 len(set(list(df4['content'])))
@@ -425,7 +422,7 @@ len(df1),len(df2),len(df3),len(df4),len(df5),len(df6),len(df7),len(df8)
     (1613, 616, 1977, 3463, 23928, 726, 7113, 749)
 
 
-
+모든 데이터들을 합쳐주었다.
 
 ```python
 df0 = pd.concat([df1['content'],df2['content'],df3['content'],df4['content'],df10['content'],df11['content'],
@@ -539,7 +536,7 @@ len(content)
     31186
 
 
-
+우울증 문서는 지식인 크롤링에서 친구, 가족의 우울증 관련얘기가 많았고 이를 제거하였다.
 
 ```python
 # 이상한거 없애기
@@ -653,21 +650,13 @@ df0.to_csv('depression_sum.csv')
 ```
 
 ## 두 데이터 합치기
-
+두 데이터를 합치기 전에 이상치를 제거하였다.
 
 ```python
 plt.plot(range(len(df0)),df0['len'].T.sort_values()) #글길이 분포 확인
 ```
 
-
-
-
-    [<matplotlib.lines.Line2D at 0x1e66e1849b0>]
-
-
-
-
-![png](depression_preprocessing_files/depression_preprocessing_38_1.png)
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p1.jpg" alt="linearly separable data">
 
 
 
@@ -755,12 +744,7 @@ plt.plot(range(len(df9)),df9['len'].T.sort_values()) #글길이 분포 확인
 
 
 
-    [<matplotlib.lines.Line2D at 0x1e66e2126d8>]
-
-
-
-
-![png](depression_preprocessing_files/depression_preprocessing_40_1.png)
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p2.jpg" alt="linearly separable data">
 
 
 
@@ -847,111 +831,7 @@ df9 = df9[df9['len']<200]
 df0 = df0[df0['len']<200]
 ```
 
-
-```python
-df9
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>content</th>
-      <th>len</th>
-      <th>label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>문화의날이라그런지인기검색어에사자랑엑시트가있네용ㅎㅎㅎㅎ무대인사예매한게둘다날짜가겹치기도...</td>
-      <td>82</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>고속버스타고올라가다내린휴게소.구미휴게소인데휴게소내에요런시설도있네요ㅎㅎ</td>
-      <td>38</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>1일부터월요일이면.그달이정~말길게느껴지더라고요.특히7월처럼31일이나되면서새까만달은.최악</td>
-      <td>48</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>저는노포를정말좋아하는데그이유는첫번째오래된집은맛에서실패할확률이적고두번째로는그세월이주는...</td>
-      <td>142</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>이시간전남비바람이몰아칩니다.ㅋㅋ.......낼일있는데..시끄러워서잠도안오고...아침...</td>
-      <td>61</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <td>8828</td>
-      <td>오렌만에메일확인했는데.광고대행사한테서메일이몇군대왔네요.안하는게낫겠죠?</td>
-      <td>38</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>8829</td>
-      <td>자꾸열받으면먹을려고하고</td>
-      <td>12</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>8830</td>
-      <td>다른날들도그렇지만오늘은더욱그림확언이좋네요^^배경음악들도연말분위기를더욱풍성하게해주네요...</td>
-      <td>77</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>8831</td>
-      <td>목요일인데아직목감기임</td>
-      <td>11</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>8832</td>
-      <td>참외2개깎아서탁자에놔두었는데....댓글달기놀이에빠져있는사이남편혼자다먹어버렸다는......</td>
-      <td>170</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>7890 rows × 3 columns</p>
-</div>
-
-
-
+### 교집합 
 
 ```python
 # 교집합제거
@@ -1031,125 +911,10 @@ df0 = df0.sample(7880).reset_index(drop=True)
 ```
 
 
-```python
-df9
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>content</th>
-      <th>len</th>
-      <th>label</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>행복합니다.감사합니다.^^</td>
-      <td>14</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>삶을풍요롭게만드는이에프티톡톡톡!!!.꿀추석을모두잘보내고계시죠?.남은휴일도행복하세요!</td>
-      <td>46</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>문화의날이라그런지인기검색어에사자랑엑시트가있네용ㅎㅎㅎㅎ무대인사예매한게둘다날짜가겹치기도...</td>
-      <td>82</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>고속버스타고올라가다내린휴게소.구미휴게소인데휴게소내에요런시설도있네요ㅎㅎ</td>
-      <td>38</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>1일부터월요일이면.그달이정~말길게느껴지더라고요.특히7월처럼31일이나되면서새까만달은.최악</td>
-      <td>48</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <td>7875</td>
-      <td>글하나하나읽어가며느끼는게많은새벽ㅎ.불면증인가잠을못자네다들굿잠이요ㅎ</td>
-      <td>36</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>7876</td>
-      <td>다른날들도그렇지만오늘은더욱그림확언이좋네요^^배경음악들도연말분위기를더욱풍성하게해주네요...</td>
-      <td>77</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>7877</td>
-      <td>목요일인데아직목감기임</td>
-      <td>11</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>7878</td>
-      <td>결혼한남자가회식할때마다단순직장동료인여자한테잘잘도착했냐,조심히들어가라,쉬어라등등매번카...</td>
-      <td>79</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <td>7879</td>
-      <td>후...워터파크탈의실에서사진찍어대는인간들왜이리많은지모르겠네요.찍으려면지들도수영복벗고...</td>
-      <td>53</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>7880 rows × 3 columns</p>
-</div>
-
-
-
-
-```python
-df9.loc[len(df9)]=['기분이좋다',5,0]
-```
-
-
-```python
-df0.loc[len(df0)]=['기분이나쁘다',6,1]
-```
-
 
 ```python
 df = pd.concat([df0,df9],axis = 0)
 df = df.reset_index(drop = True)
-df.head(5)
 ```
 
 
@@ -1181,13 +946,13 @@ df.head(5)
   <tbody>
     <tr>
       <td>0</td>
-      <td>하나님에대한신앙이최우선이라하지만내눈엔자신의말=하나님의말이라고생각하는거같음</td>
+      <td>하나님에대한신앙이최우선이라하지만</td>
       <td>40</td>
       <td>1</td>
     </tr>
     <tr>
       <td>1</td>
-      <td>내인생이가장힘들었던건나를무어라설명할수없었기때문이다</td>
+      <td>내인생이가장힘들었던건</td>
       <td>27</td>
       <td>1</td>
     </tr>
@@ -1205,7 +970,7 @@ df.head(5)
     </tr>
     <tr>
       <td>4</td>
-      <td>제가깨있어도1시반까지하는애인데뭐하나궁금해서나갔더니막마우스클릭소리나는데,화면보면네이버입니다</td>
+      <td>제가깨있어도1시반까지하는</td>
       <td>49</td>
       <td>1</td>
     </tr>
@@ -1249,25 +1014,25 @@ df.tail(5)
   <tbody>
     <tr>
       <td>15757</td>
-      <td>다른날들도그렇지만오늘은더욱그림확언이좋네요^^배경음악들도연말분위기를더욱풍성하게해주네요...</td>
+      <td>다른날들도그렇지만오늘은더욱...</td>
       <td>77</td>
       <td>0</td>
     </tr>
     <tr>
       <td>15758</td>
-      <td>목요일인데아직목감기임</td>
+      <td>목요일인데아직</td>
       <td>11</td>
       <td>0</td>
     </tr>
     <tr>
       <td>15759</td>
-      <td>결혼한남자가회식할때마다단순직장동료인여자한테잘잘도착했냐,조심히들어가라,쉬어라등등매번카...</td>
+      <td>결혼한남자가회식할때마다...</td>
       <td>79</td>
       <td>0</td>
     </tr>
     <tr>
       <td>15760</td>
-      <td>후...워터파크탈의실에서사진찍어대는인간들왜이리많은지모르겠네요.찍으려면지들도수영복벗고...</td>
+      <td>후...워터파크탈의실에서사진찍어대...</td>
       <td>53</td>
       <td>0</td>
     </tr>
@@ -1291,12 +1056,7 @@ plt.plot(range(len(df)),df['len'].T.sort_values())
 
 
 
-    [<matplotlib.lines.Line2D at 0x1e66f23b358>]
-
-
-
-
-![png](depression_preprocessing_files/depression_preprocessing_57_1.png)
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p3.jpg" alt="linearly separable data">
 
 
 ## 토크나이저, 인코딩, pad_sequences
@@ -1392,7 +1152,7 @@ plt.show()
 ```
 
 
-![png](depression_preprocessing_files/depression_preprocessing_69_0.png)
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/p4.jpg" alt="linearly separable data">
 
 
 
