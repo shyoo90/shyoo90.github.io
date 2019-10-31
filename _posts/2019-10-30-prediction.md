@@ -6,7 +6,7 @@ excerpt: "Machine Learning, RNN, Data Science"
 ---
 아래와 같이 글을 통해 글 작성자의 우울증 확률을 분석해주는 모델을 만들어 보았다.
 <img src="{{ site.url }}{{ site.baseurl }}/images/depression/1.jpg" alt="linearly separable data">
-
+<img src="{{ site.url }}{{ site.baseurl }}/images/depression/12.jpg" alt="linearly separable data">
 ## [데이터 수집](https://shyoo90.github.io/crawling/)
 
 **네이버 카페** 크롤링을 통해 데이터를 수집하였다.
