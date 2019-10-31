@@ -1,6 +1,6 @@
 ---
 title: "우울증 분석기: 데이터 전처리"
-date: 2019-10-30
+date: 2019-09-30
 tags: [machine learning, data science, python]
 excerpt: "Machine Learning, RNN, Data Science"
 ---
