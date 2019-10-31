@@ -1,8 +1,9 @@
 ---
 layout: archive
-permalink: /machine-learning/
-title: "Machine Learning Posts by Tags"
+permalink: /projects/
+title: "Projects"
 author_profile: true
 header:
-  image: "/images/car.jpg"
+  image: "/images/about.jpg"
 ---
+[우울증 분석기](https://shyoo90.github.io/prediction/)
