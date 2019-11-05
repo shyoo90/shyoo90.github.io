@@ -9,13 +9,17 @@ selenium 을 사용한 네이버 카페 메모 크롤링
 1. [준비 단계](#준비-단계)
 2. [일반 카페 글 전처리](#일반-카페-글)
 * [하나의 데이터 프레임으로 합치기](#하나의-데이터-프레임으로-합치기)
-* [띄어쓰기 제거, 말줄임표 처리](#띄어쓰기-제거,-말줄임표-처리)
+* [띄어쓰기 제거, 말줄임표 처리](#띄어쓰기-제거-말줄임표-처리)
 * [리스트로 바꾼뒤 중복된 문장 제거](#리스트로-바꾼뒤-중복된-문장-제거)
 3. [우울증 카페 글](#우울증-카페-글)
 4. [두 데이터 합치기](#두-데이터-합치기)
 * [이상치 제거](#이상치-제거)
 * [교집합 제거](#교집합-제거)
-5. [토크나이저, 인코딩, pad_sequences](#토크나이저,-인코딩,-pad_sequences)
+5. [모델에 맞게 데이터 변형](#모델에-맞게-데이터-변형)
+* [토크나이저](#토크나이저)
+* [인코딩](#인코딩)
+* [pad sequences](#pad-sequences)
+* [데이터 저장](#데이터-저장)
 
 ## 준비 단계
 필요한 패키지 가져오기
@@ -60,34 +64,7 @@ df12 = pd.read_csv('fun.csv') # 유머카페
 df13 = pd.read_csv('brunch.csv') # 브런치
 ```
 ### 하나의 데이터 프레임으로 합치기
-
-광고 올리는 아이디 제거하기
-
-```python
-# 광고 올리는 아이디 제거
-def bad_del(df4):
-    bad = []
-    for i in list(df4.index):
-        if 'http' in df4.content.loc[i]:
-            bad.append(df4.name.loc[i])
-    for i in df4['name']:
-        if i in bad:
-            df4 = df4[df4['name']!=i]
-    return df4
-```
-
-이상한 키워드를 포함하는 열 제거하기
-
-```python
-# 키워드 포함 열 제거
-def key_del(a,df4):
-    bad = []
-    for i in list(df4.index):
-        if a in df4.content.loc[i]:
-            bad.append(i)
-    df4 = df4.drop(bad, axis = 0)
-    return df4
-```
+pd.concat을 사용하여 하나의 데이터 프레임으로 만들었다.
 
 
 ```python
@@ -187,7 +164,7 @@ df9
 </div>
 
 
-### 띄어쓰기 제거, 말줄임표 처리
+### 띄어쓰기 제거 말줄임표 처리
 우울증 문서에 유독 말줄임표가 많이 등장했기 때문에 말줄임표(.....)를 '말줄임표'라는 str로 마꿔주었다.
 
 ```python
@@ -1062,9 +1039,10 @@ plt.plot(range(len(df)),df['len'].T.sort_values())
 <img src="{{ site.url }}{{ site.baseurl }}/images/depression/p3.png" alt="linearly separable data">
 
 
-## 토크나이저, 인코딩, pad_sequences
-
+## 모델에 맞게 데이터 변형
+모델의 input 형식이 np.array혹은 list형식이기 때문에
 우선 데이터를 리스트로 가져왔다.
+
 ```python
 _input1 = df['content']
 _label = df['label']
@@ -1075,7 +1053,7 @@ cleaning 함수를 만들어 이모티콘 등을 제거하였다.
 ```python
 cleaning =lambda s: re.sub("[^가-힣a-zA-Z.!?\\s]","",s) # 이모티콘같은거 제거
 ```
-
+### 토크나이저
 형태소 단위로 토크나이즈 하였다. okt함수를 사용하였다.
 ```python
 # 형태소 단위로 토크나이즈
@@ -1089,7 +1067,7 @@ feature를 줄이기 위해 feature 분포를 알아본뒤 17814개로 feature�
 num_words=17814
 ```
 
-
+### 인코딩
 ```python
 # 인코딩
 keras_tokenizer = Tokenizer(num_words=num_words)
@@ -1142,7 +1120,7 @@ max_len
     108
 
 
-
+### pad sequences
 
 ```python
 _input = pad_sequences(_input, maxlen=max_len, padding='post')
@@ -1203,6 +1181,8 @@ _label[:10]
     Name: label, dtype: int64
 
 
+### 데이터 저장
+모델에 필요한 max_len(pad_sequences에 필요), keras_tokenizer(인코딩에 필요), num_words+1(feature 개수)등을 pickle형태로 저장하였다.
 
 
 ```python
